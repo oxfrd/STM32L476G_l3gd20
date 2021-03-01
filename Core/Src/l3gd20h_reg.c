@@ -391,7 +391,12 @@ int32_t l3gd20h_temperature_raw_get(stmdev_ctx_t *ctx, uint8_t *buff)
 int32_t l3gd20h_angular_rate_raw_get(stmdev_ctx_t *ctx, int16_t *val, uint8_t *buff)
 {
   int32_t ret;
-  ret = l3gd20h_read_reg(ctx, L3GD20H_OUT_X_L, buff, 6);
+  ret = l3gd20h_read_reg(ctx, L3GD20H_OUT_X_L, &buff[0], 1);
+  ret = l3gd20h_read_reg(ctx, L3GD20H_OUT_X_H, &buff[1], 1);
+  ret = l3gd20h_read_reg(ctx, L3GD20H_OUT_Y_L, &buff[2], 1);
+  ret = l3gd20h_read_reg(ctx, L3GD20H_OUT_Y_H, &buff[3], 1);
+  ret = l3gd20h_read_reg(ctx, L3GD20H_OUT_Z_L, &buff[4], 1);
+  ret = l3gd20h_read_reg(ctx, L3GD20H_OUT_Z_H, &buff[5], 1);
 
   val[0] = (buff[1] << 8) | buff[0];
   val[1] = (buff[3] << 8) | buff[2];

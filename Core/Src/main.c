@@ -26,6 +26,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+//#include "l3gd20h_reg.h"
+//#include "l3gd20_add.h"
 #include "l3gd20h_reg.h"
 #include "l3gd20_add.h"
 /* USER CODE END Includes */
@@ -48,8 +50,6 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
-
 uint8_t Received[UART_Buffor];
 /* USER CODE END PV */
 
@@ -105,9 +105,16 @@ l3gd20_init();
 
   while (1)
   {
-	l3gd20_ReadAngularData();
+	  HAL_Delay(200);
+	  int32_t error_check;
+	  error_check = l3gd20_ReadAngularData();
 
-	// l3gd20_ReadTemperature();
+	  if (error_check !=0)
+	  	    {
+	  	    	uint32_t size;
+	  	    		size = sprintf((char*)tx_buffer, "Error kurwa! \r\n");
+	  	    		tx_com(tx_buffer, size);
+	  	    }
 
 
     /* USER CODE END WHILE */
